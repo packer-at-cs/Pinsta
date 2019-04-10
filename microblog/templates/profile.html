@@ -1,0 +1,35 @@
+<head>
+   <link rel="stylesheet" type="text/css" href="/static//main.css">
+</head> 
+{% block content %}
+{% if message %}
+{{message}}
+{%endif%}
+
+<div class="profile">
+<p> 
+<img src={{avatar}} height="220" width="220"></img>
+<br>
+<a href="/profile_image">Edit Profile</a>
+
+
+</p>
+<p>
+{{user_information["user_name"]}}
+</p>
+<ul>
+{% for i in user_information['posts'].keys()%}
+<img 
+src= {{user_information["posts"][i]["image"]}}
+height=200 width=200> 
+<li>
+{{user_information["posts"][i]["body"]}}  
+</li>
+
+
+{% endfor %}
+</ul>
+
+</div>
+
+{% endblock %}
