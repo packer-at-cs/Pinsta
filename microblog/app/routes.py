@@ -1,10 +1,12 @@
 from app import app
+from flask import Flask, render_template, request, url_for,redirect, session 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Hello, World!"
+    return render_template("index.html")
 
+#edit test thingy
 
 @app.route('/profile')
 def profile():
