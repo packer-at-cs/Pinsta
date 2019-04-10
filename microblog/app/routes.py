@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, url_for,redirect, session
 def index():
     return render_template("index.html")
 
+#edit test thingy
 
 @app.route('/profile')
 def profile():
