@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>Email</title>
+  </head>
+  <h1>
+    Email
+  </h1>
+  <body>
+    <form method = "POST">
+    Email: <input name = "email" type = "text"> 
+    <input type = "SUBMIT">
+    {% if message %}
+    {{message}}
+    {%endif%}
+  </body>
+</html>
