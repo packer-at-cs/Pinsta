@@ -1,12 +1,10 @@
 from app import app
-from flask import Flask, render_template, request, url_for,redirect, session 
+from flask import Flask, render_template, request, url_for,redirect, session
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template("index.html")
-
-#edit test thingy
+        return render_template("index.html")
 
 @app.route('/profile')
 def profile():
@@ -22,7 +20,7 @@ def profile():
 		    "body": "text",
 		    "image": "https://static01.nyt.com/images/2012/05/07/nyregion/PACKER2/PACKER2-jumbo.jpg"
 		  },
-		  2: { 
+		  2: {
 		    "body": "text2",
 		    "image": "http://www.nycago.org/Organs/Bkln/img/PackerInstInt1902.jpg"
 		  }
@@ -39,9 +37,24 @@ def profile_images():
         return render_template("profile.html")
     else:
         profilepic = request.form.get("fileupload")
-        avatar=profilepic 
+        avatar=profilepic
         return render_template("profile.html", profilepic=profilepic, avatar=profilepic)
+    #return "Hello, World!"
 
+@app.route("/email", methods = ("GET", "POST"))
+def home():
+  if request.method == "GET":
+    return render_template("home.html")
+  else:
 
- 
- 
+    sender_email = "packer.insta@gmail.com"
+    sender_password = "atcompsci"
+    reciever_email = request.form["email"]
+    message = "Boolean Logic"
+
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    s.starttls()
+    s.login(sender_email, sender_password)
+    s.sendmail(sender_email, reciever_email, message)
+    s.quit()
+    return render_template("home.html", message = "Message sent!")
