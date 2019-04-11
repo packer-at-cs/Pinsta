@@ -58,3 +58,7 @@ def home():
     s.sendmail(sender_email, reciever_email, message)
     s.quit()
     return render_template("home.html", message = "Message sent!")
+
+@app.route('/followers')
+def followers():
+        return('hello followers')
