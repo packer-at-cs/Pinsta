@@ -10,6 +10,7 @@ def index():
 
 @app.route('/profile')
 def profile():
+	# this is the post IDS
 
 	avatar="/static/avatar.jpg"
 	user_information = {
