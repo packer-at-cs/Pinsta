@@ -1,5 +1,8 @@
 from app import app
 from flask import Flask, render_template, request, url_for,redirect, session
+from flask_bootstrap import Bootstrap
+
+bootstrap = Bootstrap(app)
 
 @app.route('/')
 @app.route('/index')
@@ -70,6 +73,11 @@ def home():
     return render_template("home.html", message = "Message sent!") #Return template with message
 
 
+
+@app.route("/bootstrap")
+def bootstrap():
+    return render_template("base.html")
+  
 @app.route('/followers')
 def followers():
         return('hello followers')
