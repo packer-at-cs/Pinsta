@@ -11,6 +11,14 @@ def index():
 
 @app.route('/profile')
 def profile():
+	#Relational DB: stores a 'primary key', a unqiue integer, 
+	# on every data table (users, comments, likes, etc.). 
+	# These make it easy to construct associations because, 
+	# say you want to have a comment authored by a user, you s
+	# imply store the user id as a 'foreign key' on the row of 
+	# the comments table that you want associated with that user.
+	# Think of data tables as spreadsheets that have certain constraints 
+	# placed on the columns. 
 
 	avatar="/static/avatar.jpg"
 	user_information = {
@@ -30,11 +38,13 @@ def profile():
 		}
 	}
 	return render_template("profile.html", user_information=user_information, avatar=avatar)
+	# Connects this database to the HTML file so it can render python in the HTML 
 
 @app.route("/profile_image", methods=["POST","GET"])
 def profile_images():
     avatar="/static/avatar.jpg"
     return render_template("profile_image.html",)
+    # Made the profile a variable, so you can change your profile picture when you want.
 
     if request.method=="GET":
         return render_template("profile.html")
@@ -62,6 +72,11 @@ def home():
     s.quit()
     return render_template("home.html", message = "Message sent!")
 
+
 @app.route("/bootstrap")
 def bootstrap():
     return render_template("base.html")
+  
+@app.route('/followers')
+def followers():
+        return('hello followers')
