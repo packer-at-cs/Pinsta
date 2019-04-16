@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 import smtplib #Imports SMTPLib package
+from app import app
 
 app = Flask(__name__)
 
