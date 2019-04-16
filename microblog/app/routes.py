@@ -54,20 +54,21 @@ def profile_images():
 @app.route("/email", methods = ("GET", "POST"))
 def home():
   if request.method == "GET":
-    return render_template("home.html")
+    return render_template("home.html") #returns tempalte
   else:
 
-    sender_email = "packer.insta@gmail.com"
-    sender_password = "atcompsci"
-    reciever_email = request.form["email"]
-    message = "Boolean Logic"
+    sender_email = "packer.insta@gmail.com" #Sender email address
+    sender_password = "atcompsci" #Sender email password (for authentication)
+    reciever_email = request.form["email"] #Reciever email address (takes text from input field)
+    message = "Boolean Logic" #Message
 
-    s = smtplib.SMTP('smtp.gmail.com', 587)
-    s.starttls()
-    s.login(sender_email, sender_password)
-    s.sendmail(sender_email, reciever_email, message)
-    s.quit()
-    return render_template("home.html", message = "Message sent!")
+    s = smtplib.SMTP('smtp.gmail.com', 587) #Defines email host and port
+    s.starttls() #Start
+    s.login(sender_email, sender_password) #Logs in to sender email
+    s.sendmail(sender_email, reciever_email, message) #Sends email
+    s.quit() #End
+    return render_template("home.html", message = "Message sent!") #Return template with message
+
 
 @app.route('/followers')
 def followers():
