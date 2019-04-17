@@ -8,6 +8,7 @@ from datetime import datetime
 from flask_login import login_manager
 from app.forms import PostForm
 from app.models import Post
+import smtplib #Imports SMTPLib package
 #from app.email import send_password_reset_email
 
 @app.route('/', methods=['GET', 'POST'])
@@ -106,6 +107,14 @@ def home():
     s.sendmail(sender_email, reciever_email, message) #Sends email
     s.quit() #End
     return render_template("home.html", message = "Message sent!") #Return template with message
+
+@app.errorhandler(500) #Handles 'page not found' error
+def page_not_found(e):
+    return render_template("home.html", message = "Please enter a valid email address"), 500 #Return template with error message
+
+# app.secret_key = "my secret key" #Flask key info
+# if __name__ == "__main__":
+#   app.run(host="0.0.0.0")
 
 
 @app.route("/bootstrap")
