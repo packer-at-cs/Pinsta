@@ -1,24 +1,59 @@
+from flask import render_template, flash, redirect,url_for, request
 from app import app
-from flask import Flask, render_template, request, url_for,redirect, session
-from flask_bootstrap import Bootstrap
+from app.forms import LoginForm #, RegistrationForm,EditProfileForm
+from flask_login import current_user, login_user, logout_user, login_required
+from app.models import User, db
+from werkzeug.urls import url_parse
+from datetime import datetime
+from flask_login import login_manager
+from app.forms import PostForm
+from app.models import Post
+#from app.email import send_password_reset_email
 
-bootstrap = Bootstrap(app)
-
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
+@login_required
 def index():
-        return render_template("index.html")
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post is now live!')
+        return redirect(url_for('index'))
+    posts = current_user.posts.all()
+    return render_template('index.html', title='Home', form=form,posts=posts)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        print(user)
+        if user is None:
+            flash('Invalid username')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        return redirect(url_for('index'))
+    return render_template('login.html', title='Sign In', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 @app.route('/profile')
 def profile():
-	#Relational DB: stores a 'primary key', a unqiue integer, 
-	# on every data table (users, comments, likes, etc.). 
-	# These make it easy to construct associations because, 
+	#Relational DB: stores a 'primary key', a unqiue integer,
+	# on every data table (users, comments, likes, etc.).
+	# These make it easy to construct associations because,
 	# say you want to have a comment authored by a user, you s
-	# imply store the user id as a 'foreign key' on the row of 
+	# imply store the user id as a 'foreign key' on the row of
 	# the comments table that you want associated with that user.
-	# Think of data tables as spreadsheets that have certain constraints 
-	# placed on the columns. 
+	# Think of data tables as spreadsheets that have certain constraints
+	# placed on the columns.
 
 	avatar="/static/avatar.jpg"
 	user_information = {
@@ -38,7 +73,7 @@ def profile():
 		}
 	}
 	return render_template("profile.html", user_information=user_information, avatar=avatar)
-	# Connects this database to the HTML file so it can render python in the HTML 
+	# Connects this database to the HTML file so it can render python in the HTML
 
 @app.route("/profile_image", methods=["POST","GET"])
 def profile_images():
@@ -73,11 +108,10 @@ def home():
     return render_template("home.html", message = "Message sent!") #Return template with message
 
 
-
 @app.route("/bootstrap")
 def bootstrap():
     return render_template("base.html")
-  
+
 @app.route('/followers')
 def followers():
         return('hello followers')

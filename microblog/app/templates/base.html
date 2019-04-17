@@ -5,7 +5,18 @@ THIS IS A TEST
 {% endblock %}
 
 {% block navbar %}
-<nav style="background-color: rgba(110,0,0,1)" class="navbar navbar-expand-sm navbar-dark">
+
+<div>
+   Microblog:
+   <a href="{{ url_for('index') }}">Home</a>
+   {% if current_user.is_anonymous %}
+   <a href="{{ url_for('login') }}">Login</a>
+   {% else %}
+   <a href="{{ url_for('logout') }}">Logout</a>
+
+   {% endif %}
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   <a class="navbar-brand" href="#">Navbar</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
@@ -16,41 +27,21 @@ THIS IS A TEST
         <a class="nav-link" href="/profile">Profile</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="/">Home</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Link</a>
-      </li>    
+      </li>
     </ul>
-  </div>  
+  </div>
 </nav>
 {% endblock %}
 
 {% block content %}
 
-  <div class="jumbotron text-center">
-    <h1>Pinsta</h1> 
+  <div style="" class="jumbotron text-center">
+    <h1>Pinsta</h1>
   </div>
-
-<!-- <div class="container">
-  <div class="row">
-    <div class="col-sm-4">
-      <h3>Column 1</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-    </div>
-    <div class="col-sm-4">
-      <h3>Column 2</h3>
-      <p class = "text-success">Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-    </div>
-    <div class="col-sm-4">
-      <h3>Column 3</h3>        
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-    </div>
-  </div>
-</div>  -->
 
 {% block appcontent %}{% endblock %}
 {% endblock %}
