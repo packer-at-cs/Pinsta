@@ -1,8 +1,15 @@
 {% extends 'bootstrap/base.html' %}
 
-{% block title %}
-THIS IS A TEST
+{% block styles %}
+{{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}" />
 {% endblock %}
+
+{% block title %}
+Bootstrap Sample
+{% endblock %}
+
+
 
 {% block navbar %}
 <nav style="background-color: rgba(110,0,0,1)" class="navbar navbar-expand-sm navbar-dark">
@@ -29,7 +36,7 @@ THIS IS A TEST
 {% block content %}
 
   <div class="jumbotron text-center">
-    <h1>Pinsta</h1> 
+    <h1>PINSTA</h1> 
   </div>
 
 <!-- <div class="container">
