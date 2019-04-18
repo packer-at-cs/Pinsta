@@ -2,18 +2,12 @@
 # from flask import Flask, flash, render_template, request, url_for,redirect, session
 # from flask_login import current_user, logout_user, login_user
 # from app.forms import LoginForm
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, Flask, session
 from app import app, db
-# from app import db
 from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-# from app.models import User
 
-# @app.route('/')
-# @app.route('/index')
-# def index():
-#     return render_template("index.html")
 @app.route('/')
 @app.route('/index')
 @login_required
