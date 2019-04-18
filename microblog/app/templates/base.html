@@ -32,6 +32,9 @@ Bootstrap Sample
         <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
       </li>
       {% endif %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+      </li>
     </ul>
   </div>
 </nav>
@@ -44,5 +47,7 @@ Bootstrap Sample
     <h1>PINSTA</h1> 
   </div>
 
+<div class="appcontent">
 {% block appcontent %}{% endblock %}
 {% endblock %}
+</div>

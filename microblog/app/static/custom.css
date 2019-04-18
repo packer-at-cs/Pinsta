@@ -1,4 +1,5 @@
 .jumbotron {
+    padding-left: 0px;
     background-color: ;
     padding: 0.5em 0.6em;
     color: rgba(110,0,0,1);
@@ -7,5 +8,9 @@
         color: rgba(110,0,0,1);
         }
 }
-body {
+.appcontent {
+    padding-left: 20px;
+}
+nav {
+    padding-left: 0px;
 }
