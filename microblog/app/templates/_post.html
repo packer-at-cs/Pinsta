@@ -4,7 +4,9 @@
         <td>
 
                 {{ post.author.username }}
-            says:<br>{{ post.body }}
+            said {{ moment(post.timestamp).fromNow() }}:
+                <br>
+                {{ post.body }}
         </td>
     </tr>
 </table>
