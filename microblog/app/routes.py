@@ -1,24 +1,29 @@
 from app import app
+import pyrebase
+import tempfile
+import os
 from flask import Flask, render_template, request, url_for,redirect, session
+
+config = {
+  "apiKey": "AIzaSyAnbcc9qnLBbvkuZv65T-WFGfts8_q_MJY",
+  "authDomain": "gradebook-e5e08.firebaseapp.com",
+  "databaseURL": "https://gradebook-e5e08.firebaseio.com",
+  "storageBucket": "gradebook-e5e08.appspot.com",
+  "serviceAccount": "/Users/zaallard/Documents/ASCII/Pinsta/microblog/app/gradebook_key.json"
+}
+
+firebase = pyrebase.initialize_app(config)
+storage = firebase.storage()
 
 @app.route('/')
 @app.route('/index')
 def index():
         return render_template("index.html")
 
-@app.route('/profile')
+@app.route("/profile", methods=['POST','GET'])
 def profile():
-	#Relational DB: stores a 'primary key', a unqiue integer, 
-	# on every data table (users, comments, likes, etc.). 
-	# These make it easy to construct associations because, 
-	# say you want to have a comment authored by a user, you s
-	# imply store the user id as a 'foreign key' on the row of 
-	# the comments table that you want associated with that user.
-	# Think of data tables as spreadsheets that have certain constraints 
-	# placed on the columns. 
 
-	avatar="/static/avatar.jpg"
-	user_information = {
+    user_information = {
 
 		"user_name": "Jon Doe",
 		"profile_picture": "https://pbs.twimg.com/profile_images/502988973052932096/nvkFAZdJ_400x400.jpeg",
@@ -34,22 +39,31 @@ def profile():
 		  }
 		}
 	}
-	return render_template("profile.html", user_information=user_information, avatar=avatar)
-	# Connects this database to the HTML file so it can render python in the HTML 
 
-@app.route("/profile_image", methods=["POST","GET"])
-def profile_images():
-    avatar="/static/avatar.jpg"
-    return render_template("profile_image.html",)
-    # Made the profile a variable, so you can change your profile picture when you want.
-
-    if request.method=="GET":
-        return render_template("profile.html")
+    if request.method == 'POST':
+        picture = request.files['picture']
+        temp = tempfile.NamedTemporaryFile(delete=False)
+        picture.save(temp.name)
+        storage.child("images/test.jpg").put(temp.name)
+        os.remove(temp.name)
+        link = storage.child("images/test.jpg").get_url(None)
+        avatar=link
+        return render_template('profile.html', avatar=link, link=link, user_information=user_information)
     else:
-        profilepic = request.form.get("fileupload")
-        avatar=profilepic
-        return render_template("profile.html", profilepic=profilepic, avatar=profilepic)
-    #return "Hello, World!"
+        avatar="/static/avatar.jpg"
+        print('test')
+        return render_template("profile.html", avatar=avatar, user_information=user_information)
+    
+
+
+@app.route("/profile_image", methods=['POST','GET'])
+def profile_images():
+    
+    return render_template("profile_image.html")
+    
+
+
+    
 
 @app.route("/email", methods = ("GET", "POST"))
 def home():

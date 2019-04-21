@@ -1,29 +1,13 @@
-<form action="/profile" methods=["POST"]> 
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='/main.css')}}">
+    
+</head>
+
+<form action="/profile" method="post" enctype="multipart/form-data"> 
         
-        <input type="file" name="fileupload" value="fileupload" id="fileupload"> <label for="fileupload"> 
-        <BR>Select a file to upload</label> 
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-         <input type="text" name="updateusername"
-        value= "@JonDoe"
-        id="updateusername"> <label for="updateusername"
-        BR>Change Username</label> 
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <input type="text" name="updatebio"
-        value="Put bio here"
-        id="updatebio" maxlength="200" size="50"
-        > <label for="updatebio"
-        BR>Update your bio here</label> 
-        <br>
-        <button type="submit" value="Submit">Done</button>
+    <input type="file" name="picture" accept="image/*"/> 
+    <BR>Select a file to upload</label> 
+    <br>
+    <input type=submit value=Upload> 
     
 </form>
