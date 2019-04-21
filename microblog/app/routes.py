@@ -48,11 +48,13 @@ def profile():
         os.remove(temp.name)
         link = storage.child("images/test.jpg").get_url(None)
         avatar=link
+
+        
         return render_template('profile.html', avatar=link, link=link, user_information=user_information)
     else:
         avatar="/static/avatar.jpg"
-        print('test')
-        return render_template("profile.html", avatar=avatar, user_information=user_information)
+        samplebio="samplebio"
+        return render_template("profile.html", avatar=avatar, user_information=user_information, samplebio=samplebio)
     
 
 
@@ -61,6 +63,11 @@ def profile_images():
     
     return render_template("profile_image.html")
     
+
+@app.route("/bio_summary", methods=['POST','GET'])
+def bio_summary():
+    
+    return render_template("profile_image.html")
 
 
     
