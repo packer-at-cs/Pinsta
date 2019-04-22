@@ -14,21 +14,19 @@ import smtplib #Imports SMTPLib package
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
-#@login_required
+@login_required
 def index():
-    return "hello"
-    user = {'username': 'Miguel'}
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
-    return render_template('index.html', user=user, posts=posts)
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post is now live!')
+        return redirect(url_for('index'))
+    posts = current_user.all_posts()
+    print(form,posts)
+    return render_template('index.html', title='Home', form=form,
+                           posts=posts)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -96,7 +94,7 @@ def profile_images():
     #return "Hello, World!"
 
 @app.route("/email", methods = ("GET", "POST"))
-def home():
+def email():
   if request.method == "GET":
     return render_template("home.html") #returns tempalte
   else:
