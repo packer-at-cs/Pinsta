@@ -1,0 +1,29 @@
+<!-- 
+<html>
+    <head>
+        <title>Flask-Moment example app</title>
+        {{ moment.include_jquery() }}
+        {{ moment.include_moment() }}
+    </head>
+    <body>
+    	<p>The current date and time is: {{ moment().format('MMMM Do YYYY, h:mm:ss a') }}.</p>
+    </body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Flask-Moment</title>
+	<script src="moment.js"></script>
+	<script>moment().format();</script>
+     {{ moment.include_jquery() }}
+     {{ moment.include_moment() }}
+
+</head>
+<body>
+<body>
+        <!-- creates an instance of flask_moment and formats it in month, days, year, and the in hours, minutes, and seconds -->
+        <p>The current date and time is: {{ moment().format('MMMM Do YYYY, h:mm:ss a') }}.</p>
+</body>
+
+</body>
+</html>

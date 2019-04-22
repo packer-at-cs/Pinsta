@@ -1,0 +1,60 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+{{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}" />
+{% endblock %}
+
+{% block title %}
+Bootstrap Sample
+{% endblock %}
+
+
+
+{% block navbar %}
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+    {% if current_user.is_anonymous %}
+      <li class="nav-item">
+        <a class="nav-link" <a href="{{ url_for('login') }}">Login</a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('index') }}">Feed</a>
+      </li>     
+
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+
+
+  <div class="jumbotron text-center">
+    <h1>iBESSAGE</h1> 
+  </div>
+
+<div class="appcontent">
+{% block appcontent %}{% endblock %}
+{% endblock %}
+</div>
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+{% endblock %}
