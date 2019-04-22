@@ -53,3 +53,8 @@ Bootstrap Sample
 {% block appcontent %}{% endblock %}
 {% endblock %}
 </div>
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+{% endblock %}
