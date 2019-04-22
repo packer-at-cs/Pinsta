@@ -1,0 +1,12 @@
+<table>
+    <tr valign="top">
+        <td><img src="/static/avatar.jpg" width="50" height="50"></td>
+        <td>
+
+                {{ post.author.username }}
+            said {{ moment(post.timestamp).fromNow() }}:
+                <br>
+                {{ post.body }}
+        </td>
+    </tr>
+</table>

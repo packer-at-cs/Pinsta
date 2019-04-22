@@ -1,0 +1,26 @@
+.jumbotron {
+    padding-left: 0px;
+    background-color: ;
+    padding: 0.5em 0.6em;
+    color: rgba(110,0,0,1);
+    h1 {
+        font-size: 2em;
+        color: rgba(110,0,0,1);
+        }
+}
+.appcontent {
+    padding-left: 20px;
+}
+nav {
+    padding-left: 0px;
+}
+.input-text {
+
+}
+#posts {
+    height:400px;
+    overflow-y: scroll;
+}
+#greeting {
+    text-align: center;
+}
