@@ -79,7 +79,6 @@ def profile():
 	avatar = "/static/avatar.jpg"
 	user_information = {
 
-
 		"user_name": "Jon Doe",
 		"profile_picture": "https://pbs.twimg.com/profile_images/502988973052932096/nvkFAZdJ_400x400.jpeg",
 		"bio": "This is my bio",
@@ -106,14 +105,13 @@ def profile():
         os.remove(temp.name)
         link = storage.child("images/test.jpg").get_url(None)
         avatar=link
-
-        
         return render_template('profile.html', avatar=link, link=link, user_information=user_information)
+    
     else:
         avatar="/static/avatar.jpg"
         samplebio="samplebio"
         return render_template("profile.html", avatar=avatar, user_information=user_information, samplebio=samplebio)
-    
+
 
 
 @app.route("/profile_image", methods=['POST','GET'])
