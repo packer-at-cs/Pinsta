@@ -64,9 +64,6 @@ def logout():
 @app.route("/profile", methods=['POST','GET'])
 def profile():
 
-
-    
-
 	#Relational DB: stores a 'primary key', a unqiue integer,
 	# on every data table (users, comments, likes, etc.).
 	# These make it easy to construct associations because,
@@ -77,7 +74,9 @@ def profile():
 	# placed on the columns.
 
 	avatar = "/static/avatar.jpg"
+
     user_information = {
+
         "user_name": "Jon Doe",
         "profile_picture": "https://pbs.twimg.com/profile_images/502988973052932096/nvkFAZdJ_400x400.jpeg",
         "bio": "This is my bio",
@@ -91,6 +90,7 @@ def profile():
             "image": "http://www.nycago.org/Organs/Bkln/img/PackerInstInt1902.jpg"
           }
         }
+    
     }
 
 	# Connects this database to the HTML file so it can render python in the HTML
