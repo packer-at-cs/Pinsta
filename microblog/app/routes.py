@@ -90,7 +90,6 @@ def profile():
             "image": "http://www.nycago.org/Organs/Bkln/img/PackerInstInt1902.jpg"
           }
         }
-    
     }
 
 	# Connects this database to the HTML file so it can render python in the HTML
