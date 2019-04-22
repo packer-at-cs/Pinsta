@@ -14,3 +14,13 @@
 nav {
     padding-left: 0px;
 }
+.input-text {
+
+}
+#posts {
+    height:400px;
+    overflow-y: scroll;
+}
+#greeting {
+    text-align: center;
+}
