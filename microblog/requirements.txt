@@ -12,3 +12,4 @@ flask-sqlalchemy
 flask-migrate
 flask-login
 flask-moment
+flask_sqlalchemy
