@@ -11,7 +11,7 @@ pip install flask-migrate\
 \
 python\
 from app.models import User\
-u = User(username='Harrison', email='haresnick@packer.edu.com')\
+u = User(username='Harrison', email='haresnick@packer.edu')\
 u\
 exit()\
 \
@@ -26,10 +26,10 @@ flask db upgrade\
 python\
 from app import db\
 from app.models import User, Post\
-u = User(username='Leo', email='leportnoy@packer.edu.com')\
+u = User(username='Leo', email='leportnoy@packer.edu')\
 db.session.add(u)\
 db.session.commit()\
-u = User(username='Harrison', email='haresnick@packer.edu.com')\
+u = User(username='Harrison', email='haresnick@packer.edu')\
 db.session.add(u)\
 db.session.commit()\
 users = User.query.all()\
