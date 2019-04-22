@@ -1,3 +1,8 @@
+from datetime import datetime
+from app import db
+
+
+class User(db.Model):
 
 from datetime import datetime
 from app import db, login
@@ -22,6 +27,7 @@ class User(UserMixin, db.Model):
         own = Post.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Post.timestamp.desc())
 
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))
@@ -31,7 +37,7 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
-
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
