@@ -65,7 +65,7 @@ def logout():
 def profile():
 
 
-    user_information = {
+    
 
 	#Relational DB: stores a 'primary key', a unqiue integer,
 	# on every data table (users, comments, likes, etc.).
@@ -76,7 +76,7 @@ def profile():
 	# Think of data tables as spreadsheets that have certain constraints
 	# placed on the columns.
 
-	avatar="/static/avatar.jpg"
+	avatar = "/static/avatar.jpg"
 	user_information = {
 
 
