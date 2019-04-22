@@ -76,19 +76,18 @@ def profile():
 	avatar = "/static/avatar.jpg"
 
     user_information = {
-
         "user_name": "Jon Doe",
         "profile_picture": "https://pbs.twimg.com/profile_images/502988973052932096/nvkFAZdJ_400x400.jpeg",
         "bio": "This is my bio",
         "posts": {
-          1: {
-            "body": "text",
-            "image": "https://static01.nyt.com/images/2012/05/07/nyregion/PACKER2/PACKER2-jumbo.jpg"
-          },
-          2: {
-            "body": "text2",
-            "image": "http://www.nycago.org/Organs/Bkln/img/PackerInstInt1902.jpg"
-          }
+            1: {
+                "body": "text",
+                "image": "https://static01.nyt.com/images/2012/05/07/nyregion/PACKER2/PACKER2-jumbo.jpg"
+            },
+            2: {
+                "body": "text2",
+                "image": "http://www.nycago.org/Organs/Bkln/img/PackerInstInt1902.jpg"
+            }
         }
     }
 
