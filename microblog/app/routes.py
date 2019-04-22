@@ -75,7 +75,7 @@ def profile():
 
 	avatar = "/static/avatar.jpg"
 
-    user_information = {
+    user_information = {{
         "user_name": "Jon Doe",
         "profile_picture": "https://pbs.twimg.com/profile_images/502988973052932096/nvkFAZdJ_400x400.jpeg",
         "bio": "This is my bio",
@@ -89,7 +89,7 @@ def profile():
                 "image": "http://www.nycago.org/Organs/Bkln/img/PackerInstInt1902.jpg"
             }
         }
-    }
+    } }
 
 	# Connects this database to the HTML file so it can render python in the HTML
 
