@@ -1,8 +1,4 @@
-from datetime import datetime
 from app import db
-
-
-class User(db.Model):
 
 from datetime import datetime
 from app import db, login
@@ -19,7 +15,7 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
-        
+
     def followed_posts(self):
         followed = Post.query.join(
             followers, (followers.c.followed_id == Post.user_id)).filter(
@@ -40,4 +36,3 @@ class Post(db.Model):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
