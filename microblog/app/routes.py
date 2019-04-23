@@ -37,8 +37,7 @@ def index():
         db.session.commit()
         flash('Your post is now live!')
         return redirect(url_for('index'))
-    posts = current_user.all_posts()
-    print(form,posts)
+    posts = current_user.followed_posts().all()
     return render_template('index.html', title='Home', form=form,
                            posts=posts)
 
@@ -79,19 +78,21 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route("/profile", methods=['POST','GET'])
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = [
+        {'author': user, 'body': 'Test post #1'},
+        {'author': user, 'body': 'Test post #2'}
+    ]
+    return render_template('user.html', user=user, posts=posts)
+
+
+@app.route("/profile", methods=["POST","GET"])
 def profile():
-
-	#Relational DB: stores a 'primary key', a unqiue integer,
-	# on every data table (users, comments, likes, etc.).
-	# These make it easy to construct associations because,
-	# say you want to have a comment authored by a user, you s
-	# imply store the user id as a 'foreign key' on the row of
-	# the comments table that you want associated with that user.
-	# Think of data tables as spreadsheets that have certain constraints
-	# placed on the columns.
-
-    avatar = "/static/avatar.jpg"
+    avatar="/static/avatar.jpg"
+    # Made the profile a variable, so you can change your profile picture when you want.
 
     user_information = {
         "user_name": "Jon Doe",
@@ -108,9 +109,6 @@ def profile():
             }
         }
     } 
-
-	# Connects this database to the HTML file so it can render python in the HTML
-
 
     if request.method == 'POST':
         picture = request.files['picture']
@@ -181,6 +179,32 @@ def page_not_found(e):
 def bootstrap():
     return render_template("base.html")
 
-@app.route('/followers')
-def followers():
-        return('hello followers')
+@app.route('/follow/<username>')
+@login_required
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('User {} not found.'.format(username))
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash('You cannot follow yourself!')
+        return redirect(url_for('user', username=username))
+    current_user.follow(user)
+    db.session.commit()
+    flash('You are following {}!'.format(username))
+    return redirect(url_for('user', username=username))
+
+@app.route('/unfollow/<username>')
+@login_required
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('User {} not found.'.format(username))
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash('You cannot unfollow yourself!')
+        return redirect(url_for('user', username=username))
+    current_user.unfollow(user)
+    db.session.commit()
+    flash('You are not following {}.'.format(username))
+    return redirect(url_for('user', username=username))
