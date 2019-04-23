@@ -1,3 +1,4 @@
+from app import app, db
 import pyrebase
 import tempfile
 import os
@@ -7,13 +8,13 @@ config = {
   "authDomain": "gradebook-e5e08.firebaseapp.com",
   "databaseURL": "https://gradebook-e5e08.firebaseio.com",
   "storageBucket": "gradebook-e5e08.appspot.com",
-  "serviceAccount": "/Users/zaallard/Documents/ASCII/Pinsta/microblog/app/gradebook_key.json"
+  "serviceAccount": "app/gradebook_key.json"
 }
 
 firebase = pyrebase.initialize_app(config)
 storage = firebase.storage()
 
-from app import app, db
+
 from flask import render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm #EditProfileForm
 
@@ -108,7 +109,7 @@ def profile():
                 "image": "http://www.nycago.org/Organs/Bkln/img/PackerInstInt1902.jpg"
             }
         }
-    } 
+    }
 
     if request.method == 'POST':
         picture = request.files['picture']
@@ -129,17 +130,17 @@ def profile():
 
 @app.route("/profile_image", methods=['POST','GET'])
 def profile_images():
-    
+
     return render_template("profile_image.html")
-    
+
 
 @app.route("/bio_summary", methods=['POST','GET'])
 def bio_summary():
-    
+
     return render_template("profile_image.html")
 
 
-    
+
 
 @app.route('/explore')
 @login_required
