@@ -14,4 +14,10 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['gbenedis@gmail.com']
     POSTS_PER_PAGE = 10
-
+    PYREBASE = {
+      "apiKey": "AIzaSyAnbcc9qnLBbvkuZv65T-WFGfts8_q_MJY",
+      "authDomain": "gradebook-e5e08.firebaseapp.com",
+      "databaseURL": "https://gradebook-e5e08.firebaseio.com",
+      "storageBucket": "gradebook-e5e08.appspot.com",
+      "serviceAccount": "app/gradebook_key.json"
+    }
