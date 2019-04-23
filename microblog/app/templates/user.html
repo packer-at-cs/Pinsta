@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1504.83">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 18.0px; font: 12.0px Menlo; color: #718c00; -webkit-text-stroke: #718c00; background-color: #f8f8f8}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 18.0px; font: 12.0px Menlo; color: #718c00; -webkit-text-stroke: #718c00; background-color: #f8f8f8; min-height: 14.0px}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 18.0px; font: 12.0px Menlo; color: #4d4d4c; -webkit-text-stroke: #4d4d4c; background-color: #f8f8f8}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 18.0px; font: 12.0px Menlo; color: #333333; -webkit-text-stroke: #333333; background-color: #f8f8f8; min-height: 14.0px}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 18.0px; font: 12.0px Menlo; color: #333333; -webkit-text-stroke: #333333; background-color: #f8f8f8}
+    span.s1 {font-kerning: none}
+    span.s2 {font-kerning: none; color: #718c00; -webkit-text-stroke: 0px #718c00}
+    span.s3 {font-kerning: none; color: #4271ae; -webkit-text-stroke: 0px #4271ae}
+    span.s4 {font-kerning: none; color: #8959a8; -webkit-text-stroke: 0px #8959a8}
+    span.s5 {font-kerning: none; color: #4d4d4c; -webkit-text-stroke: 0px #4d4d4c}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;html&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p3"><span class="s2">&lt;h1&gt;</span><span class="s3">User</span><span class="s1">: {{ user.username }}&lt;/h1&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">      </span>{% </span><span class="s4">if</span><span class="s1"> user.about_me %}&lt;p&gt;{{ user.about_me }}&lt;/p&gt;{% endif %}</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">        </span>{% </span><span class="s4">if</span><span class="s1"> user.last_seen %}&lt;p&gt;</span><span class="s3">Last</span><span class="s1"> seen on: {{ user.last_seen }}&lt;/p&gt;{% endif %}</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s2">&lt;p&gt;</span><span class="s1">{{ user.followers.count() }} followers, {{ user.followed.count() }} following.&lt;/p&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">        </span>{% </span><span class="s4">if</span><span class="s1"> user == current_user %}</span></p>
+<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">&lt;p&gt;</span><span class="s5">&lt;a href=</span><span class="s1">"{{ url_for('edit_profile') }}"</span><span class="s5">&gt;</span><span class="s3">Edit</span><span class="s5"> your profile&lt;</span><span class="s1">/a&gt;&lt;/</span><span class="s5">p&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">        </span>{% </span><span class="s4">elif</span><span class="s1"> </span><span class="s4">not</span><span class="s1"> current_user.is_following(user) %}</span></p>
+<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">&lt;p&gt;</span><span class="s5">&lt;a href=</span><span class="s1">"{{ url_for('follow', username=user.username) }}"</span><span class="s5">&gt;</span><span class="s3">Follow</span><span class="s5">&lt;</span><span class="s1">/a&gt;&lt;/</span><span class="s5">p&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">        </span>{% </span><span class="s4">else</span><span class="s1"> %}</span></p>
+<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s1">&lt;p&gt;</span><span class="s5">&lt;a href=</span><span class="s1">"{{ url_for('unfollow', username=user.username) }}"</span><span class="s5">&gt;</span><span class="s3">Unfollow</span><span class="s5">&lt;</span><span class="s1">/a&gt;&lt;/</span><span class="s5">p&gt;</span></p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">        </span>{% endif %}</span></p>
+<p class="p4"><span class="s1"></span><br></p>
+<p class="p5"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
