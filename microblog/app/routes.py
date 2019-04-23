@@ -93,6 +93,13 @@ def profile_images():
         return render_template("profile.html", profilepic=profilepic, avatar=profilepic)
     #return "Hello, World!"
 
+@app.route('/explore')
+@login_required
+def explore():
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    return render_template('index.html', title='Explore', posts=posts)
+
+
 @app.route("/email", methods = ("GET", "POST"))
 def email():
   if request.method == "GET":
