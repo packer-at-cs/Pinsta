@@ -1,19 +1,7 @@
 from app import app, db
-import pyrebase
+
 import tempfile
 import os
-
-config = {
-  "apiKey": "AIzaSyAnbcc9qnLBbvkuZv65T-WFGfts8_q_MJY",
-  "authDomain": "gradebook-e5e08.firebaseapp.com",
-  "databaseURL": "https://gradebook-e5e08.firebaseio.com",
-  "storageBucket": "gradebook-e5e08.appspot.com",
-  "serviceAccount": "app/gradebook_key.json"
-}
-
-firebase = pyrebase.initialize_app(config)
-storage = firebase.storage()
-
 
 from flask import render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm #EditProfileForm
@@ -83,12 +71,8 @@ def logout():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'}
-    ]
+    posts = user.posts.order_by(Post.timestamp.desc())
     return render_template('user.html', user=user, posts=posts)
-
 
 @app.route("/profile", methods=["POST","GET"])
 def profile():
