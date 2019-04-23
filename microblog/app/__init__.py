@@ -8,7 +8,6 @@ from logging.handlers import SMTPHandler
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 
-
 #app = Flask(__name__, static_folder='public', template_folder='views')
 
 app = Flask(__name__)
