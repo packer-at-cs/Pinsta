@@ -21,8 +21,7 @@ def index():
         db.session.commit()
         flash('Your post is now live!')
         return redirect(url_for('index'))
-    posts = current_user.all_posts()
-    print(form,posts)
+    posts = current_user.followed_posts().all()
     return render_template('index.html', title='Home', form=form,
                            posts=posts)
 
@@ -89,6 +88,10 @@ def profile():
 	return render_template("profile.html", user_information=user_information, avatar=avatar)
 	# Connects this database to the HTML file so it can render python in the HTML
 
+@app.route("/edit_profile")
+def edit_profile():
+    return 'time to edit your profile'
+    
 @app.route("/profile_image", methods=["POST","GET"])
 def profile_images():
     avatar="/static/avatar.jpg"
@@ -170,4 +173,3 @@ def unfollow(username):
     db.session.commit()
     flash('You are not following {}.'.format(username))
     return redirect(url_for('user', username=username))
-

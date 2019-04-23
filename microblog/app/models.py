@@ -38,8 +38,7 @@ class User(UserMixin, db.Model):
                 followers.c.follower_id == self.id)
         own = Post.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Post.timestamp.desc())
-    def all_posts(self):
-        return Post.query.all()
+    
     def follow(self, user):
         if not self.is_following(user):
             self.followed.append(user)
