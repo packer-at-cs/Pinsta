@@ -1,6 +1,22 @@
+import pyrebase
+import tempfile
+import os
+
+config = {
+  "apiKey": "AIzaSyAnbcc9qnLBbvkuZv65T-WFGfts8_q_MJY",
+  "authDomain": "gradebook-e5e08.firebaseapp.com",
+  "databaseURL": "https://gradebook-e5e08.firebaseio.com",
+  "storageBucket": "gradebook-e5e08.appspot.com",
+  "serviceAccount": "/Users/zaallard/Documents/ASCII/Pinsta/microblog/app/gradebook_key.json"
+}
+
+firebase = pyrebase.initialize_app(config)
+storage = firebase.storage()
+
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm #EditProfileForm
+
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post
 from werkzeug.urls import url_parse
@@ -72,54 +88,58 @@ def user(username):
     ]
     return render_template('user.html', user=user, posts=posts)
 
-@app.route('/profile')
+
+@app.route("/profile", methods=["POST","GET"])
 def profile():
-	#Relational DB: stores a 'primary key', a unqiue integer,
-	# on every data table (users, comments, likes, etc.).
-	# These make it easy to construct associations because,
-	# say you want to have a comment authored by a user, you s
-	# imply store the user id as a 'foreign key' on the row of
-	# the comments table that you want associated with that user.
-	# Think of data tables as spreadsheets that have certain constraints
-	# placed on the columns.
-
-	avatar="/static/avatar.jpg"
-	user_information = {
-
-		"user_name": "Jon Doe",
-		"profile_picture": "https://pbs.twimg.com/profile_images/502988973052932096/nvkFAZdJ_400x400.jpeg",
-		"bio": "This is my bio",
-		"posts": {
-		  1: {
-		    "body": "text",
-		    "image": "https://static01.nyt.com/images/2012/05/07/nyregion/PACKER2/PACKER2-jumbo.jpg"
-		  },
-		  2: {
-		    "body": "text2",
-		    "image": "http://www.nycago.org/Organs/Bkln/img/PackerInstInt1902.jpg"
-		  }
-		}
-	}
-	return render_template("profile.html", user_information=user_information, avatar=avatar)
-	# Connects this database to the HTML file so it can render python in the HTML
-
-@app.route("/edit_profile")
-def edit_profile():
-    return 'time to edit your profile'
-    
-@app.route("/profile_image", methods=["POST","GET"])
-def profile_images():
     avatar="/static/avatar.jpg"
-    return render_template("profile_image.html",)
     # Made the profile a variable, so you can change your profile picture when you want.
 
-    if request.method=="GET":
-        return render_template("profile.html")
+    user_information = {
+        "user_name": "Jon Doe",
+        "profile_picture": "https://pbs.twimg.com/profile_images/502988973052932096/nvkFAZdJ_400x400.jpeg",
+        "bio": "This is my bio",
+        "posts": {
+            1: {
+                "body": "text",
+                "image": "https://static01.nyt.com/images/2012/05/07/nyregion/PACKER2/PACKER2-jumbo.jpg"
+            },
+            2: {
+                "body": "text2",
+                "image": "http://www.nycago.org/Organs/Bkln/img/PackerInstInt1902.jpg"
+            }
+        }
+    } 
+
+    if request.method == 'POST':
+        picture = request.files['picture']
+        temp = tempfile.NamedTemporaryFile(delete=False)
+        picture.save(temp.name)
+        storage.child("images/test.jpg").put(temp.name)
+        os.remove(temp.name)
+        link = storage.child("images/test.jpg").get_url(None)
+        avatar=link
+        return render_template('profile.html', avatar=link, link=link, user_information=user_information)
+
     else:
-        profilepic = request.form.get("fileupload")
-        avatar=profilepic
-        return render_template("profile.html", profilepic=profilepic, avatar=profilepic)
-    #return "Hello, World!"
+        avatar="/static/avatar.jpg"
+        samplebio="samplebio"
+        return render_template("profile.html", avatar=avatar, user_information=user_information, samplebio=samplebio)
+
+
+
+@app.route("/profile_image", methods=['POST','GET'])
+def profile_images():
+    
+    return render_template("profile_image.html")
+    
+
+@app.route("/bio_summary", methods=['POST','GET'])
+def bio_summary():
+    
+    return render_template("profile_image.html")
+
+
+    
 
 @app.route('/explore')
 @login_required

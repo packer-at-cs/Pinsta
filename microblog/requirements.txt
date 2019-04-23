@@ -1,7 +1,6 @@
-Flask==1.0.2
-flask-wtf
-flask-sqlalchemy
-flask-login
+
+flask-moment
+flask_sqlalchemy
 
 # needs pip to install
 
