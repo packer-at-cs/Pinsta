@@ -1,3 +1,4 @@
+from app import db
 
 from datetime import datetime
 from app import db, login
@@ -14,13 +15,22 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
-        
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
     def followed_posts(self):
         followed = Post.query.join(
             followers, (followers.c.followed_id == Post.user_id)).filter(
                 followers.c.follower_id == self.id)
         own = Post.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Post.timestamp.desc())
+    def all_posts(self):
+        return Post.query.all()
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,7 +40,6 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
-
 
 @login.user_loader
 def load_user(id):
