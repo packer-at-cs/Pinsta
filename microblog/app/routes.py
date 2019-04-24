@@ -67,18 +67,16 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.utcnow()
+        db.session.commit()
+
 @app.route('/user/<username>')
 @login_required
 def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
-    posts = user.posts.order_by(Post.timestamp.desc())
-    return render_template('user.html', user=user, posts=posts)
-
-@app.route("/profile", methods=["POST","GET"])
-def profile():
-    avatar="/static/avatar.jpg"
-    # Made the profile a variable, so you can change your profile picture when you want.
-
     user_information = {
         "user_name": "Jon Doe",
         "profile_picture": "https://pbs.twimg.com/profile_images/502988973052932096/nvkFAZdJ_400x400.jpeg",
@@ -94,6 +92,22 @@ def profile():
             }
         }
     }
+    avatar="/static/avatar.jpg"
+    samplebio="samplebio"
+    return render_template("profile.html", avatar=avatar, user_information=user_information, samplebio=samplebio)
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = user.posts.order_by(Post.timestamp.desc())
+    return render_template('user.html', user=user, posts=posts)
+
+
+
+
+@app.route("/profile", methods=["POST","GET"])
+def profile():
+    avatar="/static/avatar.jpg"
+    # Made the profile a variable, so you can change your profile picture when you want.
+
+    
 
     if request.method == 'POST':
         picture = request.files['picture']
@@ -103,25 +117,26 @@ def profile():
         os.remove(temp.name)
         link = storage.child("images/test.jpg").get_url(None)
         avatar=link
+        print(current_user.username)
         return render_template('profile.html', avatar=link, link=link, user_information=user_information)
 
     else:
         avatar="/static/avatar.jpg"
-        samplebio="samplebio"
-        return render_template("profile.html", avatar=avatar, user_information=user_information, samplebio=samplebio)
+        about_me="samplebio"
+        return render_template("profile.html", avatar=avatar, user_information=user_information, about_me=about_me)
 
 
 
-@app.route("/profile_image", methods=['POST','GET'])
-def profile_images():
+@app.route("/edit_profile", methods=['POST','GET'])
+def edit_profile():
 
-    return render_template("profile_image.html")
+    return render_template("edit_profile.html")
 
 
 @app.route("/bio_summary", methods=['POST','GET'])
 def bio_summary():
 
-    return render_template("profile_image.html")
+    return render_template("edit_profile.html")
 
 
 
