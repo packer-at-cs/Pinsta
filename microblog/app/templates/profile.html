@@ -1,33 +1,57 @@
+{% extends "base.html" %}
 <head>
-   <link rel="stylesheet" type="text/css" href="/static//main.css">
+   <link rel="stylesheet" type="text/css" href="/static/main.css">
 </head> 
 {% block content %}
-{% if message %}
-{{message}}
-{%endif%}
+
 
 <div class="profile">
-<p> 
-<img src={{avatar}} height="220" width="220"></img>
-<br>
-<a href="/profile_image">Edit Profile</a>
 
+    <div class="main">
+        <div class="important">
+            <p> 
+            <img src={{avatar}} height="220" width="220"></img><br>
+            <a href="/profile_image">Change profile image</a>
+            </p>
+            <div class="stats">
+                <h5>
+                    Followers: <br> 100
+                </h5>
+                <h5>
+                    Following: <br>100
+                </h5>
+                <h5>
+                    Posts: <br>100
+                </h5>
+            </div>
+        </div>
+        <p>
+            <input type="text" name="BioSummary" maxlength="150"  size="50" value={{samplebio}}>
+            <a href="/bio_summary">Change Bio Summary</a>
+        </p>
+        
+    </div>
 
-</p>
-<p>
-{{user_information["user_name"]}}
-</p>
-<ul>
-{% for i in user_information['posts'].keys()%}
-<img 
-src= {{user_information["posts"][i]["image"]}}
-height=200 width=200> 
-<li>
-{{user_information["posts"][i]["body"]}}  
-</li>
-{% endfor %}
-</ul>
+    <div class="posts">
+        <p>
+        {{user_information["user_name"]}}
+        </p>
 
+        <ul>
+        {% for i in user_information['posts'].keys()%}
+        <img 
+        src= {{user_information["posts"][i]["image"]}}
+        height=200 width=200> 
+        <li>
+        {{user_information["posts"][i]["body"]}}  
+        </li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    </div>
 </div>
 
 {% endblock %}
+
+

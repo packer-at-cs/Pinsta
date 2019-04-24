@@ -1,0 +1,25 @@
+{
+  "//1": "describes your app and its dependencies",
+  "//2": "https://docs.npmjs.com/files/package.json",
+  "//3": "updating this file will download and update your packages",
+
+  "name": "Pinsta",
+  "version": "0.0.1",
+  "description": "AT CS clones Instagram",
+  "scripts": {
+    "start": "bash installReqsAndStart.sh"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": "9.x"
+  },
+  "repository": {
+    "url": "https://github.com/packer-at-cs/Pinsta.git"
+  },
+  "license": "Packer Collegiate",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
+}

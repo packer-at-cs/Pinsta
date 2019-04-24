@@ -1,23 +1,27 @@
 from flask import Flask
-from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from config import Config
 from flask_login import LoginManager
 import logging
 from logging.handlers import SMTPHandler
 from flask_bootstrap import Bootstrap
+from flask_moment import Moment
+import pyrebase
 
 #app = Flask(__name__, static_folder='public', template_folder='views')
+
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
 login = LoginManager(app)
 login.login_view = 'login'
 bootstrap = Bootstrap(app)
-
-
-from app import routes,models
+moment = Moment(app)
+firebase = pyrebase.initialize_app(Config.PYREBASE)
+storage = firebase.storage()
 
 if not app.debug:
     if app.config['MAIL_SERVER']:
@@ -34,3 +38,5 @@ if not app.debug:
             credentials=auth, secure=secure)
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
+
+from app import routes, models

@@ -28,13 +28,16 @@ Bootstrap Sample
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
       </li>
-      
+
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('index') }}">Feed</a>
-      </li>     
+      </li>
 
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ url_for('explore') }}">Explore</a>
       </li>
       {% endif %}
     </ul>
@@ -46,10 +49,15 @@ Bootstrap Sample
 
 
   <div class="jumbotron text-center">
-    <h1>iBESSAGE</h1> 
+    <h1>iBESSAGE</h1>
   </div>
 
 <div class="appcontent">
 {% block appcontent %}{% endblock %}
 {% endblock %}
 </div>
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+{% endblock %}
