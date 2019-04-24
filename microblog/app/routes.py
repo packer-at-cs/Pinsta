@@ -7,7 +7,7 @@ config = {
   "authDomain": "gradebook-e5e08.firebaseapp.com",
   "databaseURL": "https://gradebook-e5e08.firebaseio.com",
   "storageBucket": "gradebook-e5e08.appspot.com",
-  "serviceAccount": "/Users/zaallard/Documents/ASCII/Pinsta/microblog/app/gradebook_key.json"
+  "serviceAccount": "app/gradebook_key.json"
 }
 
 firebase = pyrebase.initialize_app(config)
