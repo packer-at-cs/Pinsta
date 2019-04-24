@@ -1,0 +1,19 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='/main.css')}}">
+    
+</head>
+
+<form action="/profile" method="post" enctype="multipart/form-data"> 
+        
+    <input type="file" name="picture" accept="image/*"/> 
+    <BR>Select a file to upload</label> 
+    <br>
+
+
+    <input type="text" name="about_me" maxlength="150"  size="50" value={{about_me}}>
+
+
+    <input type=submit value=Submit> 
+    
+</form>
+
