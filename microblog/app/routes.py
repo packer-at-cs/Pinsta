@@ -30,6 +30,10 @@ def index():
     return render_template('index.html', title='Home', form=form,
                            posts=posts)
 
+@app.route('/comments/<post_id>')
+def comments(post_id):
+    return 'hello world'
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
