@@ -143,7 +143,7 @@ def explore():
 @app.route("/email", methods = ("GET", "POST"))
 def email():
   if request.method == "GET":
-    return render_template("home.html") #returns tempalte
+    return render_template("email.html") #returns tempalte
   else:
 
     sender_email = "packer.insta@gmail.com" #Sender email address
@@ -156,11 +156,11 @@ def email():
     s.login(sender_email, sender_password) #Logs in to sender email
     s.sendmail(sender_email, reciever_email, message) #Sends email
     s.quit() #End
-    return render_template("home.html", message = "Message sent!") #Return template with message
+    return render_template("email.html", message = "Message sent!") #Return template with message
 
 @app.errorhandler(500) #Handles 'page not found' error
 def page_not_found(e):
-    return render_template("home.html", message = "Please enter a valid email address"), 500 #Return template with error message
+    return render_template("email.html", message = "Please enter a valid email address"), 500 #Return template with error message
 
 # app.secret_key = "my secret key" #Flask key info
 # if __name__ == "__main__":
