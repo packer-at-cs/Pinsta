@@ -1,4 +1,4 @@
-from app import app, db
+from app import app, db, storage
 
 import tempfile
 import os
@@ -29,6 +29,10 @@ def index():
     posts = current_user.followed_posts().all()
     return render_template('index.html', title='Home', form=form,
                            posts=posts)
+
+@app.route('/comments/<post_id>')
+def comments(post_id):
+    return 'hello world'
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -77,6 +81,8 @@ def user(username):
 @app.route("/profile", methods=["POST","GET"])
 def profile():
     avatar="/static/avatar.jpg"
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    posts = user.posts.order_by(Post.timestamp.desc())
     # Made the profile a variable, so you can change your profile picture when you want.
 
     user_information = {
@@ -108,7 +114,7 @@ def profile():
     else:
         avatar="/static/avatar.jpg"
         samplebio="samplebio"
-        return render_template("profile.html", avatar=avatar, user_information=user_information, samplebio=samplebio)
+        return render_template("profile.html", avatar=avatar, user_information=user_information, samplebio=samplebio, user=user)
 
 
 
