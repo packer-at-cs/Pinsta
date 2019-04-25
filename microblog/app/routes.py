@@ -127,16 +127,14 @@ def profile():
 
 
 
-@app.route("/profile_image", methods=['POST','GET'])
+@app.route("/edit_profile", methods=['POST','GET'])
 def profile_images():
-    
-    return render_template("profile_image.html")
+    return render_template("edit_profile.html")
     
 
 @app.route("/bio_summary", methods=['POST','GET'])
 def bio_summary():
-    
-    return render_template("profile_image.html")
+    return render_template("edit_profile.html")
 
 
     
