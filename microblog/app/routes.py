@@ -1,4 +1,5 @@
 from app import app, db
+import pyrebase
 
 import tempfile
 import os
