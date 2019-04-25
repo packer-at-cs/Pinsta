@@ -91,24 +91,10 @@ def before_request():
 @app.route('/user/<username>')
 @login_required
 def user(username):
-    user_information = {
-        "user_name": "Jon Doe",
-        "profile_picture": "https://pbs.twimg.com/profile_images/502988973052932096/nvkFAZdJ_400x400.jpeg",
-        "bio": "This is my bio",
-        "posts": {
-            1: {
-                "body": "text",
-                "image": "https://static01.nyt.com/images/2012/05/07/nyregion/PACKER2/PACKER2-jumbo.jpg"
-            },
-            2: {
-                "body": "text2",
-                "image": "http://www.nycago.org/Organs/Bkln/img/PackerInstInt1902.jpg"
-            }
-        }
-    }
+    
     avatar="/static/avatar.jpg"
     samplebio="samplebio"
-    return render_template("profile.html", avatar=avatar, user_information=user_information, samplebio=samplebio)
+    return render_template("profile.html", avatar=avatar, samplebio=samplebio)
     user = User.query.filter_by(username=username).first_or_404()
     posts = user.posts.order_by(Post.timestamp.desc())
     return render_template('user.html', user=user, posts=posts)
@@ -121,8 +107,6 @@ def profile():
     avatar="/static/avatar.jpg"
     # Made the profile a variable, so you can change your profile picture when you want.
 
-    
-
     if request.method == 'POST':
         picture = request.files['picture']
         temp = tempfile.NamedTemporaryFile(delete=False)
@@ -132,12 +116,12 @@ def profile():
         link = storage.child("images/test.jpg").get_url(None)
         avatar=link
         print(current_user.username)
-        return render_template('profile.html', avatar=link, link=link, user_information=user_information)
+        return render_template('profile.html', avatar=link, link=link, user=user)
 
     else:
         avatar="/static/avatar.jpg"
         about_me="samplebio"
-        return render_template("profile.html", avatar=avatar, user_information=user_information, about_me=about_me)
+        return render_template("profile.html", avatar=avatar, about_me=about_me, user=user)
 
 
 from app.forms import EditProfileForm
