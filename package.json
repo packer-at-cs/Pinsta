@@ -7,12 +7,10 @@
   "version": "0.0.1",
   "description": "AT CS clones Instagram",
   "scripts": {
-    "start": "bash installReqsAndStart.sh"
+    "start": "bash start.sh"
   },
   "dependencies": {},
-  "engines": {
-    "node": "9.x"
-  },
+  "engines": {},
   "repository": {
     "url": "https://github.com/packer-at-cs/Pinsta.git"
   },
