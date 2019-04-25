@@ -1,13 +1,8 @@
-<head>
-    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='/main.css')}}">
-    
-</head>
-
 {%extends "base.html" %}
 
 {%block content %}
 	<h1>Edit Profile</h1>
-	<form action="/profile" method="post">
+	<form action="/edit_profile" method="post">
 		{{ form.hidden_tag() }}
 		<p>
 			{{ form.usernmae.label }}<br>

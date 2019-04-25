@@ -140,6 +140,7 @@ def profile():
         return render_template("profile.html", avatar=avatar, user_information=user_information, about_me=about_me)
 
 
+from app.forms import EditProfileForm
 @app.route("/edit_profile", methods=['POST','GET'])
 @login_required
 def edit_profile():
@@ -149,11 +150,11 @@ def edit_profile():
         current_user.about_me = form.about_me.data
         db.session.commit()
         flash('Your changes have been saved.')
-        return redirect(url_for('edit_profile'))
+        return redirect(url_for('profile'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
-    return render_template('edit_profile.html', title='Edit Profile',
+    return render_template('profile.html', title='Edit Profile',
                            form=form)
     
 
