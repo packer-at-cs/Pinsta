@@ -13,6 +13,7 @@ from datetime import datetime
 from flask_login import login_manager
 from app.forms import PostForm
 import smtplib #Imports SMTPLib package
+
 #from app.email import send_password_reset_email
 
 @app.route('/', methods=['GET', 'POST'])
@@ -148,14 +149,15 @@ def email():
     sender_email = "packer.insta@gmail.com" #Sender email address
     sender_password = "atcompsci" #Sender email password (for authentication)
     reciever_email = request.form["email"] #Reciever email address (takes text from input field)
-    message = "Boolean Logic" #Message
+    form = ResetPasswordRequestForm()
+    message = 'Subject: {}\n\n{}'.format('Password Reset', 'Password Reset') #message and subject
 
     s = smtplib.SMTP('smtp.gmail.com', 587) #Defines email host and port
     s.starttls() #Start
     s.login(sender_email, sender_password) #Logs in to sender email
     s.sendmail(sender_email, reciever_email, message) #Sends email
     s.quit() #End
-    return render_template("home.html", message = "Message sent!") #Return template with message
+    return render_template("home.html", message = "Message sent!", form=form) #Return template with message
 
 @app.errorhandler(500) #Handles 'page not found' error
 def page_not_found(e):
