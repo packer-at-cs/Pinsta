@@ -158,9 +158,9 @@ def email():
     s.quit() #End
     return render_template("email.html", message = "Message sent!") #Return template with message
 
-@app.errorhandler(500) #Handles 'page not found' error
-def page_not_found(e):
-    return render_template("email.html", message = "Please enter a valid email address"), 500 #Return template with error message
+# @app.errorhandler(500) #Handles 'page not found' error
+# def page_not_found(e):
+#     return render_template("email.html", message = "Please enter a valid email address"), 500 #Return template with error message
 
 # app.secret_key = "my secret key" #Flask key info
 # if __name__ == "__main__":
