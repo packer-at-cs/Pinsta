@@ -27,7 +27,7 @@
         </div>
         <p>
             {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
-            {% if user.last_seen %}<p>Last seen on: {{ user.last_seen }}</p>{% endif %}
+            {% if user.last_seen %}<p>Last seen on: {{ moment(user.last_seen).format('LLL') }}</p>{% endif %}
             <input type="text" name="BioSummary" maxlength="150"  size="50" value={{samplebio}}>
             <a href="/bio_summary">Change Bio Summary</a>
         </p>
