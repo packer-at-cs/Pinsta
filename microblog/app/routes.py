@@ -19,7 +19,6 @@ import smtplib #Imports SMTPLib package
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    return 'hello'
     form = PostForm()
     if form.validate_on_submit():
         post = Post(body=form.post.data, author=current_user)
