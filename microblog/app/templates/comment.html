@@ -1,6 +1,9 @@
+<h> {{post}} </h>
+
 <form action = "/comment" method = "POST">
 comment: <br><input name = 'comment' type = "text"> <br>
 <input type = "SUBMIT">
+
 
 <table>
   {% for comment in comments %}

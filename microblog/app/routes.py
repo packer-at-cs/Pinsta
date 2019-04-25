@@ -30,10 +30,6 @@ def index():
     return render_template('index.html', title='Home', form=form,
                            posts=posts)
 
-@app.route('/comments/<post_id>')
-def comments(post_id):
-    return 'hello world'
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -138,6 +134,17 @@ def explore():
     posts = Post.query.order_by(Post.timestamp.desc()).all()
     return render_template('index.html', title='Explore', posts=posts)
 
+@app.route('/comments/<post_id>')
+def comments(post_id):
+    post = 'asfdhgas'
+    user = 'luca'
+    comments = [['user1','hi'], ['user2','hello']]
+    if request.method == "GET":
+        return render_template('comment.html', post = post, comments = comments, user = user)
+    else:
+        new_comment = request.form.get("comment/,")
+        comments.append(['luca', new_comment])
+    return render_template('comment.html', post = post, comments = comments, user = user)
 
 @app.route("/email", methods = ("GET", "POST"))
 def email():
