@@ -3,7 +3,30 @@
     
 </head>
 
-<form action="/profile" method="post" enctype="multipart/form-data"> 
+{%extends "base.html" %}
+
+{%block content %}
+	<h1>Edit Profile</h1>
+	<form action="" method="post">
+		{{ form.hidden_tag() }}
+		<p>
+			{{ form.usernmae.label }}<br>
+			{{ form.username(size=32) }}<br>
+			{% for error in form.username.errors %}
+			<span style="color:red;">[{{ error }}]</span>
+			{% endfor %}
+		</p>
+		<p>
+			{{ form.about_me.label }}<br>
+			{{ form.about_me(cols=50, rows=4) }}<br>
+			{% for error in form.about_me.errors %}
+			<span style="color:red;">[{{ error }}]</span>
+			{%endfor%}
+		</p>
+		<p>{{ form.submit() }}</p>
+	</form>
+{% endblock %}
+<!-- <form action="/profile" method="post" enctype="multipart/form-data"> 
         
     <input type="file" name="picture" accept="image/*"/> 
     <BR>Select a file to upload</label> 
@@ -16,4 +39,4 @@
     <input type=submit value=Submit> 
     
 </form>
-
+ -->
