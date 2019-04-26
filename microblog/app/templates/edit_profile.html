@@ -1,0 +1,36 @@
+{%extends "base.html" %}
+
+{%block content %}
+	<h1>Edit Profile</h1>
+	<form action="/edit_profile" method="post">
+		{{ form.hidden_tag() }}
+		<p>
+			{{ form.username.label }}<br>
+			{{ form.username(size=32) }}<br>
+			{% for error in form.username.errors %}
+			<span style="color:red;">[{{ error }}]</span>
+			{% endfor %}
+		</p>
+		<p>
+			{{ form.about_me.label }}<br>
+			{{ form.about_me(cols=50, rows=4) }}<br>
+			{% for error in form.about_me.errors %}
+			<span style="color:red;">[{{ error }}]</span>
+			{%endfor%}
+		</p>
+		<p>{{ form.submit() }}</p>
+	</form>
+	<form action="/profile" method="post" enctype="multipart/form-data"> 
+        
+    <input type="file" name="picture" accept="image/*"/> 
+    <BR>Select a file to upload</label> 
+    <br>
+
+
+    <input type="text" name="about_me" maxlength="150"  size="50" value={{about_me}}>
+
+
+    <input type=submit value=Submit>   
+</form>
+
+{% endblock %}

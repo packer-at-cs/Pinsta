@@ -1,0 +1,319 @@
+from app import app, db
+import pyrebase
+
+import tempfile
+import os
+
+
+# config = {
+#   "apiKey": "AIzaSyAnbcc9qnLBbvkuZv65T-WFGfts8_q_MJY",
+#   "authDomain": "gradebook-e5e08.firebaseapp.com",
+#   "databaseURL": "https://gradebook-e5e08.firebaseio.com",
+#   "storageBucket": "gradebook-e5e08.appspot.com",
+#   "serviceAccount": "app/gradebook_key.json"
+# }
+
+
+from flask import render_template, flash, redirect, url_for, request
+from app.forms import LoginForm, RegistrationForm #EditProfileForm
+
+from flask_login import current_user, login_user, logout_user, login_required
+from app.models import User, Post
+from werkzeug.urls import url_parse
+from datetime import datetime
+from flask_login import login_manager
+from app.forms import PostForm
+import smtplib #Imports SMTPLib package
+#from app.email import send_password_reset_email
+import pyrebase
+from pyrebase import initialize_app
+import firebase_admin
+from firebase_admin import credentials
+
+config = {
+  "apiKey": "AIzaSyCdo6BNs18wwIV7oNZYd1Htb7WeSSEMT7E",
+  "authDomain": "pinsta-c6d80.firebaseapp.com",
+  "databaseURL": "https://pinsta-c6d80.firebaseio.com",
+  "projectId": "pinsta-c6d80",
+  "storageBucket": "pinsta-c6d80.appspot.com",
+  "serviceAccount": "app/serviceAccountKey.json"
+}
+firebase = pyrebase.initialize_app(config)
+storage = firebase.storage()
+
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
+@login_required
+def index():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post is now live!')
+        return redirect(url_for('index'))
+    posts = current_user.followed_posts().all()
+    return render_template('index.html', title='Home', form=form,
+                           posts=posts)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('index')
+        return redirect(next_page)
+    return render_template('login.html', title='Sign In', form=form)
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.utcnow()
+        db.session.commit()
+
+@app.route('/user/<username>', methods=["POST","GET"])
+@login_required
+def user(username):
+    user_information = {
+        "user_name": "Jon Doe",
+        "profile_picture": "https://pbs.twimg.com/profile_images/502988973052932096/nvkFAZdJ_400x400.jpeg",
+        "bio": "This is my bio",
+        "posts": {
+            1: {
+                "body": "text",
+                "image": "https://static01.nyt.com/images/2012/05/07/nyregion/PACKER2/PACKER2-jumbo.jpg"
+            },
+            2: {
+                "body": "text2",
+                "image": "http://www.nycago.org/Organs/Bkln/img/PackerInstInt1902.jpg"
+            }
+        }
+    }
+    avatar="/static/avatar.jpg"
+    samplebio="samplebio"
+    if request.method == 'POST':
+        picture = request.files['picture']
+        temp = tempfile.NamedTemporaryFile(delete=False)
+        picture.save(temp.name)
+        storage.child("images/test.jpg").put(temp.name)
+        os.remove(temp.name)
+        link = storage.child("images/test.jpg").get_url(None)
+        avatar=link
+        return render_template('profile.html', avatar=link, link=link, user_information=user_information)
+    else:
+        avatar="/static/avatar.jpg"
+        about_me="samplebio"
+        return render_template("profile.html", avatar=avatar, about_me=about_me, user_information=user_information)
+
+    return render_template("profile.html", avatar=avatar, user_information=user_information,samplebio=samplebio)
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = user.posts.order_by(Post.timestamp.desc())
+    return render_template('user.html', user=user, posts=posts)
+
+
+
+
+@app.route("/profile", methods=["POST","GET"])
+def profile():
+    avatar="/static/avatar.jpg"
+    # Made the profile a variable, so you can change your profile picture when you want.
+    user_information = {
+        "user_name": "Jon Doe",
+        "profile_picture": "https://pbs.twimg.com/profile_images/502988973052932096/nvkFAZdJ_400x400.jpeg",
+        "bio": "This is my bio",
+        "posts": {
+            1: {
+                "body": "text",
+                "image": "https://static01.nyt.com/images/2012/05/07/nyregion/PACKER2/PACKER2-jumbo.jpg"
+            },
+            2: {
+                "body": "text2",
+                "image": "http://www.nycago.org/Organs/Bkln/img/PackerInstInt1902.jpg"
+            }
+        }
+    }
+    
+
+    if request.method == 'POST':
+        picture = request.files['picture']
+        temp = tempfile.NamedTemporaryFile(delete=False)
+        picture.save(temp.name)
+        storage.child("images/test_user2.png").put(temp.name)
+        os.remove(temp.name)
+        link = storage.child("images/test_user2.png").get_url(None)
+        avatar=link
+        return render_template('profile.html', avatar=link, link=link, user_information=user_information)
+
+    else:
+        avatar="/static/avatar.jpg"
+        about_me="samplebio"
+        return render_template("profile.html", avatar=avatar, about_me=about_me, user_information=user_information)
+
+
+from app.forms import EditProfileForm
+@app.route("/edit_profile", methods=['POST','GET'])
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.about_me = form.about_me.data
+    # if request.method == 'POST':
+        picture = request.files['picture']
+        temp = tempfile.NamedTemporaryFile(delete=False)
+        picture.save(temp.name)
+        storage.child("images/test_user2.png").put(temp.name)
+        os.remove(temp.name)
+        link = storage.child("images/test_user2.png").get_url(None)
+        avatar=link
+        return render_template('profile.html', avatar=link, link=link, user_information=user_information)
+    # else:
+    #     avatar="/static/avatar.jpg"
+    #     about_me="samplebio"
+    #     return render_template("profile.html", avatar=avatar, about_me=about_me, user_information=user_information)
+
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('edit_profile'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.about_me.data = current_user.about_me
+    return render_template('edit_profile.html', title='Edit Profile',
+                           form=form)
+    
+
+@app.route("/bio_summary", methods=['POST','GET'])
+def bio_summary():
+    return render_template("edit_profile.html")
+
+@app.route('/explore')
+@login_required
+def explore():
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    return render_template('index.html', title='Explore', posts=posts)
+
+
+@app.route("/email", methods = ("GET", "POST"))
+def email():
+  if request.method == "GET":
+    return render_template("home.html") #returns tempalte
+  else:
+
+    sender_email = "packer.insta@gmail.com" #Sender email address
+    sender_password = "atcompsci" #Sender email password (for authentication)
+    reciever_email = request.form["email"] #Reciever email address (takes text from input field)
+    message = "Boolean Logic" #Message
+
+    s = smtplib.SMTP('smtp.gmail.com', 587) #Defines email host and port
+    s.starttls() #Start
+    s.login(sender_email, sender_password) #Logs in to sender email
+    s.sendmail(sender_email, reciever_email, message) #Sends email
+    s.quit() #End
+    return render_template("home.html", message = "Message sent!") #Return template with message
+
+@app.errorhandler(500) #Handles 'page not found' error
+def page_not_found(e):
+    return render_template("home.html", message = "Please enter a valid email address"), 500 #Return template with error message
+
+# app.secret_key = "my secret key" #Flask key info
+# if __name__ == "__main__":
+#   app.run(host="0.0.0.0")
+
+
+@app.route("/bootstrap")
+def bootstrap():
+    return render_template("base.html")
+
+@app.route('/follow/<username>')
+@login_required
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('User {} not found.'.format(username))
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash('You cannot follow yourself!')
+        return redirect(url_for('user', username=username))
+    current_user.follow(user)
+    db.session.commit()
+    flash('You are following {}!'.format(username))
+    return redirect(url_for('user', username=username))
+
+@app.route('/unfollow/<username>')
+@login_required
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('User {} not found.'.format(username))
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash('You cannot unfollow yourself!')
+        return redirect(url_for('user', username=username))
+    current_user.unfollow(user)
+    db.session.commit()
+    flash('You are not following {}.'.format(username))
+    return redirect(url_for('user', username=username))
+
+# @app.route("/firebase_test", methods=["POST","GET"])
+# def profile():
+#     avatar="/static/avatar.jpg"
+#     # Made the profile a variable, so you can change your profile picture when you want.
+#     user_information = {
+#         "user_name": "Jon Doe",
+#         "profile_picture": "https://pbs.twimg.com/profile_images/502988973052932096/nvkFAZdJ_400x400.jpeg",
+#         "bio": "This is my bio",
+#         "posts": {
+#             1: {
+#                 "body": "text",
+#                 "image": "https://static01.nyt.com/images/2012/05/07/nyregion/PACKER2/PACKER2-jumbo.jpg"
+#             },
+#             2: {
+#                 "body": "text2",
+#                 "image": "http://www.nycago.org/Organs/Bkln/img/PackerInstInt1902.jpg"
+#             }
+#         }
+#     }
+#     if request.method == 'POST':
+#         picture = request.files['picture']
+#         temp = tempfile.NamedTemporaryFile(delete=False)
+#         picture.save(temp.name)
+#         storage.child("images/test.jpg").put(temp.name)
+#         os.remove(temp.name)
+#         link = storage.child("images/test.jpg").get_url(None)
+#         avatar=link
+#         return render_template('profile.html', avatar=link, link=link, user_information=user_information)
+
+#     else:
+#         avatar="/static/avatar.jpg"
+#         about_me="samplebio"
+#         return render_template("profile.html", avatar=avatar, about_me=about_me, user_information=user_information)
+

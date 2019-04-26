@@ -1,0 +1,13 @@
+<form action = "/comment" method = "POST">
+comment: <br><input name = 'comment' type = "text"> <br>
+<input type = "SUBMIT">
+
+<table>
+  {% for comment in comments %}
+  <tr>
+    <th>{{comment[0]}}</th>
+    <td>{{comment[1]}}</td>
+  </tr>
+  <tr>{{word}} </tr>
+  {% endfor %}
+</table>

@@ -1,0 +1,37 @@
+body{
+    margin: 0;
+    height: 100%;
+}
+.profile {
+    border-style: solid;
+    border-width: 5px;
+    border-color: maroon;
+    float: left;
+    padding: 30px;
+    margin: 20px;
+}
+
+input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.main {
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+}
+
+.important {
+    display: flex;
+    padding: 10px;
+    margin: auto;
+}
+
+.stats {
+    padding: 10px;
+    margin: 5px;
+    display: flex;
+}
