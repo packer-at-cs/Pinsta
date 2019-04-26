@@ -1,2 +1,0 @@
-pyrebase
-firebase_admin
