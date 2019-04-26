@@ -1,16 +1,16 @@
-<html>
-  <head>
-    <title>Email</title> <!-- Page title (on tab bar) -->
-  </head>
+{% extends "base.html" %}
+
+{% block appcontent %}
+
   <h1>
     Email <!-- Page title (on web page) -->
   </h1>
-  <body>
     <form method = "POST">
     Email: <input name = "email" type = "text"> <!-- Email input field -->
     <input type = "SUBMIT">
     {% if message %} 
     {{message}} <!-- Includes message if present -->
     {%endif%}
-  </body>
-</html>
+  
+
+{% endblock %}
