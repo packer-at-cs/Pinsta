@@ -1,9 +1,9 @@
-
+flask
+flask-wtf
+flask-login
 flask-moment
 flask_sqlalchemy
-
-# needs pip to install
-
 Flask-Bootstrap4
 flask-migrate
 flask-moment
+pyrebase
